@@ -53,7 +53,6 @@
             padding: 35px 25px;
             border: 2px solid #FFD700;
             border-radius: 15px;
-            /* Đã nới rộng khung từ 480px lên 550px để chứa đủ tên trên máy tính */
             max-width: 550px; 
             width: 90%;
             background: rgba(0, 0, 0, 0.6);
@@ -70,7 +69,6 @@
         
         .cover-content h1 {
             font-family: 'Great Vibes', cursive;
-            /* Cân chỉnh lại giới hạn to tối đa (46px) để không đâm thủng lề hộp */
             font-size: clamp(24px, 7vw, 46px); 
             white-space: nowrap; 
             margin: 15px 0;
@@ -179,7 +177,6 @@
         
         .hero-section h2 {
             font-family: 'Great Vibes', cursive;
-            /* Cân chỉnh lại to tối đa (50px) để vừa khít cả trên PC */
             font-size: clamp(26px, 7vw, 50px); 
             white-space: nowrap; 
             color: #FFD700;
@@ -288,7 +285,6 @@
             margin-top: 5px;
         }
 
-        /* NÚT MỞ BẢN ĐỒ CHỈ ĐƯỜNG */
         .map-btn {
             display: inline-block;
             background: #8B0000;
@@ -331,9 +327,7 @@
     <div id="main-content">
         <div class="hero-section">
             <p class="hero-event">Lễ Thành Hôn</p>
-            
             <h2>Văn Phúc & Minh Thư</h2>
-            
             <p class="hero-date">27 • 09 • 2026</p>
         </div>
 
@@ -401,7 +395,11 @@
         </div>
     </div>
 
+    <!-- Thêm thư viện Canvas Confetti tạo hiệu ứng pháo hoa -->
+    <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
+    
     <script>
+        // Xử lý tên khách mời
         const urlParams = new URLSearchParams(window.location.search);
         const guest = urlParams.get('to');
         if (guest) {
@@ -409,6 +407,36 @@
         }
 
         function openInvitation() {
+            // 1. Chạy hiệu ứng pháo hoa hai bên lề
+            var duration = 3000; // Bắn liên tục trong 3 giây
+            var end = Date.now() + duration;
+
+            (function frame() {
+                // Bắn từ bên trái (x: 0)
+                confetti({
+                    particleCount: 5,
+                    angle: 60,
+                    spread: 55,
+                    origin: { x: 0 },
+                    colors: ['#FFD700', '#ff0000', '#ffffff'],
+                    zIndex: 10000
+                });
+                // Bắn từ bên phải (x: 1)
+                confetti({
+                    particleCount: 5,
+                    angle: 120,
+                    spread: 55,
+                    origin: { x: 1 },
+                    colors: ['#FFD700', '#ff0000', '#ffffff'],
+                    zIndex: 10000
+                });
+
+                if (Date.now() < end) {
+                    requestAnimationFrame(frame);
+                }
+            }());
+
+            // 2. Chuyển cảnh mở thiệp
             const cover = document.getElementById('cover-screen');
             const main = document.getElementById('main-content');
             
