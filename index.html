@@ -72,7 +72,7 @@
             font-size: 48px;
             margin: 15px 0;
             color: #FFF;
-            /* Thêm hiệu ứng phát sáng (glow) vàng kim bao quanh tên cô dâu chú rể */
+            /* Hiệu ứng phát sáng (glow) vàng kim bao quanh tên cô dâu chú rể */
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 
                          0 0 20px rgba(255, 215, 0, 0.6), 
                          0 0 30px rgba(255, 215, 0, 0.4), 
@@ -92,6 +92,7 @@
             letter-spacing: 1px;
             text-shadow: 0 0 8px rgba(255,215,0,0.6);
         }
+        
         .open-btn {
             background: #FFD700;
             color: #7A0000;
@@ -103,11 +104,24 @@
             cursor: pointer;
             transition: 0.3s;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+            
+            /* --- LÀM ẨN NÚT VÀ HIỆN LÊN SAU VÀI GIÂY --- */
+            opacity: 0; /* Cho mờ tịt ban đầu */
+            pointer-events: none; /* Không cho bấm khi đang mờ */
+            animation: fadeInButton 1.5s ease 4s forwards; /* Đợi 4 giây, từ từ hiện ra trong 1.5 giây */
         }
         .open-btn:hover {
             background: #fff;
             color: #8B0000;
             transform: scale(1.05);
+        }
+
+        /* Khai báo hiệu ứng từ từ hiện nút */
+        @keyframes fadeInButton {
+            to {
+                opacity: 1;
+                pointer-events: auto; /* Cho phép bấm trở lại */
+            }
         }
 
         /* NỘI DUNG CHÍNH CỦA THIỆP */
