@@ -35,7 +35,6 @@
             overflow: hidden;
         }
 
-        /* Khung viền trang trí cổ điển */
         #cover-screen::before {
             content: '';
             position: absolute;
@@ -73,21 +72,20 @@
             margin: 15px 0;
             color: #FFF;
             line-height: 1.2;
-            /* Hiệu ứng phát sáng */
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 
                          0 0 20px rgba(255, 215, 0, 0.6), 
                          0 0 30px rgba(255, 215, 0, 0.4), 
                          2px 2px 5px rgba(0,0,0,0.9);
         }
         .cover-content p.invite-text {
-            font-size: 18px; /* Tăng từ 16px lên */
+            font-size: 18px;
             color: #f1f1f1;
             margin-bottom: 5px;
             text-transform: uppercase;
             letter-spacing: 1px;
         }
         .guest-name {
-            font-size: 24px; /* Tăng xíu */
+            font-size: 24px;
             font-weight: bold;
             color: #FFD700;
             margin: 12px 0 22px 0;
@@ -95,10 +93,9 @@
             letter-spacing: 1px;
             text-shadow: 0 0 8px rgba(255,215,0,0.6);
         }
-        /* Style riêng cho ngày tháng ở bìa */
         .cover-date {
             margin-bottom: 25px;
-            font-size: 20px; /* Tăng kích thước đáng kể */
+            font-size: 20px;
             color: #FFD700;
             font-weight: bold;
             letter-spacing: 2px;
@@ -120,8 +117,6 @@
             cursor: pointer;
             transition: 0.3s;
             box-shadow: 0 4px 15px rgba(0,0,0,0.4);
-            
-            /* --- LÀM ẨN NÚT VÀ HIỆN LÊN SAU VÀI GIÂY --- */
             opacity: 0;
             pointer-events: none;
             animation: fadeInButton 1.5s ease 4s forwards;
@@ -152,45 +147,52 @@
             box-shadow: 0 0 30px rgba(0,0,0,0.5);
             display: none;
         }
+        
+        /* PHẦN ẢNH NỀN (HERO SECTION) */
         .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('DUY00720.jpg') center/cover;
-            height: 480px;
+            /* Lớp phủ gradient: mờ ở trên (0.1) để rõ mặt, tối dần xuống dưới (0.7) để nổi chữ */
+            background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%), url('DUY00720.jpg') center/cover;
+            height: 520px; /* Tăng nhẹ chiều cao để rộng rãi hơn */
             display: flex;
             flex-direction: column;
-            justify-content: center; /* Đẩy lên giữa thay vì flex-end */
+            justify-content: flex-end; /* Đẩy chữ xuống sát dưới cùng */
             align-items: center;
             text-align: center;
             color: white;
-            padding: 20px;
+            padding-bottom: 35px; /* Giữ khoảng cách với viền dưới */
             border-bottom: 5px solid #8B0000;
         }
         .hero-section p.hero-event {
-            font-size: 24px; /* Tăng kích thước Lễ Thành Hôn */
-            font-weight: bold;
-            letter-spacing: 4px;
+            font-family: 'Lora', serif;
+            font-size: 26px; /* Chữ lớn hơn */
+            font-weight: 400; /* Nét thanh mảnh tinh tế, không in đậm */
+            letter-spacing: 8px; /* Giãn chữ cực kỳ sang trọng */
             text-transform: uppercase;
             color: #FFF;
-            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
-            margin-bottom: -10px; /* Kéo gần lại chữ ký */
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+            margin-bottom: 0px; 
         }
         .hero-section h2 {
             font-family: 'Great Vibes', cursive;
-            font-size: 65px; /* Tăng to hơn nữa */
+            /* Dùng clamp để chữ tự thu nhỏ cho vừa màn hình đt, to nhất là 65px */
+            font-size: clamp(40px, 12vw, 65px); 
+            white-space: nowrap; /* ÉP BUỘC nằm trên 1 dòng */
             color: #FFD700;
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 2px 2px 5px rgba(0,0,0,0.9);
             line-height: 1.2;
-            margin: 20px 0;
+            margin: 10px 0 20px 0;
+            padding: 0 10px;
         }
         .hero-section p.hero-date {
-            font-size: 22px; /* Tăng to ngày tháng */
+            font-size: 22px; 
             font-weight: bold;
             letter-spacing: 5px;
             color: #FFD700;
             text-shadow: 2px 2px 6px rgba(0,0,0,0.9);
-            background: rgba(0, 0, 0, 0.4); /* Nền mờ giúp ngày nổi bật hơn */
-            padding: 5px 15px;
-            border-radius: 20px;
-            border: 1px solid rgba(255, 215, 0, 0.5);
+            background: rgba(0, 0, 0, 0.3); 
+            padding: 6px 18px;
+            border-radius: 30px;
+            border: 1px solid rgba(255, 215, 0, 0.4);
         }
         
         .section-box {
@@ -304,10 +306,8 @@
             <div class="guest-name" id="guestNameDisplay">Quý Khách</div>
             <p class="invite-text" style="font-size: 15px;">Đến dự lễ thành hôn của</p>
             
-            <!-- Đã bọc thẻ span để tránh rớt dòng vô duyên trên mobile -->
-            <h1><span style="white-space: nowrap;">Văn Phúc</span> & <span style="white-space: nowrap;">Minh Thư</span></h1>
+            <h1 style="white-space: nowrap;">Văn Phúc & Minh Thư</h1>
             
-            <!-- Ngày tháng được làm to và nổi bật có viền trên dưới -->
             <div class="cover-date">CHỦ NHẬT • 27.09.2026</div>
             
             <button class="open-btn" onclick="openInvitation()">Mở Thiệp</button>
@@ -317,13 +317,11 @@
     <!-- NỘI DUNG CHÍNH (ẨN ĐẾN KHI BẤM MỞ) -->
     <div id="main-content">
         <div class="hero-section">
-            <!-- Chữ Lễ Thành Hôn được làm to, dập chìm nhẹ -->
             <p class="hero-event">Lễ Thành Hôn</p>
             
-            <!-- Đã bọc thẻ span để tránh rớt dòng trên mobile, tên to hơn -->
-            <h2><span style="white-space: nowrap;">Văn Phúc</span> & <span style="white-space: nowrap;">Minh Thư</span></h2>
+            <!-- Tên 2 người ép trên 1 dòng tuyệt đối -->
+            <h2>Văn Phúc & Minh Thư</h2>
             
-            <!-- Ngày tháng được làm to, có khung nền mờ giúp tách biệt khỏi ảnh nền rối -->
             <p class="hero-date">27 • 09 • 2026</p>
         </div>
 
