@@ -61,7 +61,6 @@
             position: relative;
         }
         
-        /* CHỮ HỶ MỚI - 1 chữ duy nhất, to và rực rỡ hơn */
         .cover-content .symbol {
             font-size: 85px; 
             margin-bottom: 10px; 
@@ -152,7 +151,6 @@
             display: none;
         }
         
-        /* PHẦN ẢNH NỀN (HERO SECTION) */
         .hero-section {
             background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%), url('DUY00720.jpg') center/cover;
             height: 520px; 
@@ -309,12 +307,15 @@
 </head>
 <body>
 
-    <!-- MÀN HÌNH BÌA CHỜ MỞ THIỆP -->
+    <!-- THẺ PHÁT NHẠC NGẦM VỚI TÊN FILE NHẠC CHUẨN -->
+    <audio id="wedding-audio" loop>
+        <source src="Nhac.mp3" type="audio/mp3">
+    </audio>
+
+    <!-- MÀN HÌNH MỞ THIỆP (BÌA) -->
     <div id="cover-screen">
         <div class="cover-content">
-            <!-- Thay đổi 2 chữ 囍 thành 1 chữ 囍 duy nhất -->
             <div class="symbol">囍</div>
-            
             <p class="invite-text">Trân trọng kính mời</p>
             <div class="guest-name" id="guestNameDisplay">Quý Khách</div>
             <p class="invite-text" style="font-size: 15px;">Đến dự lễ thành hôn của</p>
@@ -399,7 +400,7 @@
         </div>
     </div>
 
-    <!-- Thêm thư viện Canvas Confetti tạo hiệu ứng pháo hoa -->
+    <!-- Thư viện Canvas Confetti tạo hiệu ứng pháo hoa -->
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <script>
@@ -411,12 +412,17 @@
         }
 
         function openInvitation() {
-            // 1. Chạy hiệu ứng pháo hoa hai bên lề
-            var duration = 3000; // Bắn liên tục trong 3 giây
+            // 1. Phát nhạc nền ngay khi bấm mở thiệp
+            const audio = document.getElementById('wedding-audio');
+            audio.play().catch(error => {
+                console.log("Trình duyệt chặn tự động phát nhạc:", error);
+            });
+
+            // 2. Chạy hiệu ứng pháo hoa hai bên lề
+            var duration = 3000; 
             var end = Date.now() + duration;
 
             (function frame() {
-                // Bắn từ bên trái (x: 0)
                 confetti({
                     particleCount: 5,
                     angle: 60,
@@ -425,7 +431,6 @@
                     colors: ['#FFD700', '#ff0000', '#ffffff'],
                     zIndex: 10000
                 });
-                // Bắn từ bên phải (x: 1)
                 confetti({
                     particleCount: 5,
                     angle: 120,
@@ -440,7 +445,7 @@
                 }
             }());
 
-            // 2. Chuyển cảnh mở thiệp
+            // 3. Chuyển cảnh mở thiệp
             const cover = document.getElementById('cover-screen');
             const main = document.getElementById('main-content');
             
