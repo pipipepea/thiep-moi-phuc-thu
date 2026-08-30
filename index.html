@@ -1,1 +1,332 @@
+<!DOCTYPE html>
+<html lang="vi">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Thiệp Cưới - Văn Phúc & Minh Thư</title>
+    <!-- Google Fonts: Đổi sang Lora để số hiển thị thẳng hàng, Great Vibes cho chữ ký -->
+    <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            background-color: #600000;
+            font-family: 'Lora', serif; /* Đã đổi sang font Lora */
+            color: #333;
+            overflow-x: hidden;
+        }
 
+        /* MÀN HÌNH MỞ THIỆP (BÌA) */
+        #cover-screen {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100vh;
+            background: linear-gradient(135deg, #8B0000, #4A0000);
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+            transition: transform 1s ease, opacity 1s ease;
+            overflow: hidden;
+        }
+
+        /* Khung viền trang trí cổ điển */
+        #cover-screen::before {
+            content: '';
+            position: absolute;
+            top: 20px;
+            left: 20px;
+            right: 20px;
+            bottom: 20px;
+            border: 2px solid rgba(255, 215, 0, 0.4);
+            pointer-events: none;
+            border-radius: 10px;
+        }
+
+        .cover-content {
+            text-align: center;
+            color: #FFD700;
+            padding: 35px 25px;
+            border: 2px solid #FFD700;
+            border-radius: 15px;
+            max-width: 480px;
+            width: 90%;
+            background: rgba(0, 0, 0, 0.6);
+            box-shadow: 0 0 35px rgba(255, 215, 0, 0.4);
+            z-index: 2;
+            position: relative;
+        }
+        .cover-content .symbol {
+            font-size: 55px;
+            margin-bottom: 5px;
+            text-shadow: 0 0 12px #FFD700;
+            letter-spacing: 10px;
+        }
+        .cover-content h1 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 48px;
+            margin: 15px 0;
+            color: #FFF;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
+        }
+        .cover-content p {
+            font-size: 16px;
+            color: #f1f1f1;
+            margin-bottom: 5px;
+        }
+        .guest-name {
+            font-size: 22px;
+            font-weight: bold;
+            color: #FFD700;
+            margin: 12px 0 22px 0;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            text-shadow: 0 0 8px rgba(255,215,0,0.6);
+        }
+        .open-btn {
+            background: #FFD700;
+            color: #7A0000;
+            border: none;
+            padding: 12px 35px;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 30px;
+            cursor: pointer;
+            transition: 0.3s;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.4);
+        }
+        .open-btn:hover {
+            background: #fff;
+            color: #8B0000;
+            transform: scale(1.05);
+        }
+
+        /* NỘI DUNG CHÍNH CỦA THIỆP */
+        #main-content {
+            opacity: 0;
+            transition: opacity 1s ease;
+            max-width: 600px;
+            margin: 0 auto;
+            background: #fffdf9;
+            min-height: 100vh;
+            box-shadow: 0 0 30px rgba(0,0,0,0.5);
+            display: none;
+        }
+        .hero-section {
+            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1519741497674-611481863552?auto=format&fit=crop&w=800&q=80') center/cover;
+            height: 480px;
+            display: flex;
+            flex-direction: column;
+            justify-content: flex-end;
+            align-items: center;
+            text-align: center;
+            color: white;
+            padding-bottom: 40px;
+            border-bottom: 5px solid #8B0000;
+        }
+        .hero-section h2 {
+            font-family: 'Great Vibes', cursive;
+            font-size: 58px;
+            color: #FFD700;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.7);
+        }
+        .hero-section p {
+            font-size: 18px;
+            letter-spacing: 2px;
+            text-transform: uppercase;
+        }
+        .section-box {
+            padding: 40px 25px;
+            text-align: center;
+            border-bottom: 1px dashed #e0d2c3;
+        }
+        .section-box h3 {
+            color: #8B0000;
+            font-size: 32px;
+            margin-bottom: 15px;
+            font-family: 'Great Vibes', cursive;
+        }
+        .invitation-text {
+            font-size: 17px;
+            line-height: 1.7;
+            color: #444;
+            margin-bottom: 15px;
+        }
+        .parents-section {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            background: #fdf5f0;
+            padding: 20px 10px;
+            border-radius: 8px;
+            border: 1px solid #faedcd;
+        }
+        .parent-group {
+            width: 48%;
+            font-size: 15px;
+            line-height: 1.6;
+        }
+        .parent-group h4 {
+            color: #8B0000;
+            margin-bottom: 8px;
+            font-size: 16px;
+            text-transform: uppercase;
+            border-bottom: 1px solid #d4a373;
+            padding-bottom: 4px;
+        }
+        .info-grid {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 20px;
+            gap: 15px;
+        }
+        .info-card {
+            background: #fff;
+            padding: 25px 15px;
+            border-radius: 10px;
+            width: 48%;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.06);
+            border-top: 4px solid #8B0000;
+            text-align: left;
+        }
+        .info-card h4 {
+            color: #8B0000;
+            margin-bottom: 12px;
+            text-align: center;
+            font-size: 18px;
+        }
+        .info-card p {
+            font-size: 14px;
+            line-height: 1.5;
+            color: #555;
+            margin-bottom: 6px;
+        }
+        .footer-note {
+            background: #8B0000;
+            color: white;
+            padding: 35px 20px;
+            text-align: center;
+            font-size: 16px;
+        }
+        .lunar-date {
+            color: #8B0000;
+            font-style: italic;
+            font-weight: 600;
+            margin-top: 5px;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- MÀN HÌNH BÌA CHỜ MỞ THIỆP -->
+    <div id="cover-screen">
+        <div class="cover-content">
+            <div class="symbol">囍 囍</div>
+            <p>Trân trọng kính mời</p>
+            <div class="guest-name" id="guestNameDisplay">Quý Khách Hàng</div>
+            <p>Đến dự lễ thành hôn của hai chúng tôi</p>
+            <h1>Văn Phúc & Minh Thư</h1>
+            <p style="margin-bottom: 20px; font-size: 16px; color: #FFD700; font-weight: bold;">Chủ Nhật, 27.09.2026</p>
+            <button class="open-btn" onclick="openInvitation()">Mở Thiệp</button>
+        </div>
+    </div>
+
+    <!-- NỘI DUNG CHÍNH (ẨN ĐẾN KHI BẤM MỞ) -->
+    <div id="main-content">
+        <div class="hero-section">
+            <p>Lễ Thành Hôn</p>
+            <h2>Văn Phúc & Minh Thư</h2>
+            <p>27.09.2026</p>
+        </div>
+
+        <div class="section-box">
+            <h3>Lời Ngỏ & Trân Trọng Kính Mời</h3>
+            <p class="invitation-text">
+                Tới dự bữa cơm thân mật cùng gia đình chúng tôi nhân lễ thành hôn của con trai và con gái yêu quý:
+            </p>
+            
+            <div class="parents-section">
+                <div class="parent-group">
+                    <h4>NHÀ TRAI</h4>
+                    <p><b>Ông:</b> NGUYỄN VĂN HÂN</p>
+                    <p><b>Bà:</b> TRẦN THỊ LÝ</p>
+                </div>
+                <div class="parent-group">
+                    <h4>NHÀ GÁI</h4>
+                    <p><b>Ông:</b> NGUYỄN LÊ QUÂN</p>
+                    <p><b>Bà:</b> NGUYỄN THỊ SINH</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-box">
+            <h3>Thời Gian & Địa Điểm</h3>
+            <p style="font-size: 18px; font-weight: bold; color: #8B0000; margin-bottom: 5px;">Vào hồi 09 giờ 00, Chủ Nhật</p>
+            <p style="font-size: 20px; font-weight: bold; color: #222;">27.09.2026</p>
+            <p class="lunar-date">(Tức ngày 17 tháng 08 năm Bính Ngọ)</p>
+
+            <div class="info-grid" style="margin-top: 25px;">
+                <div class="info-card">
+                    <h4>LỄ THÀNH HÔN</h4>
+                    <p><b>Thời gian:</b> 09:00 sáng</p>
+                    <p><b>Ngày:</b> 27.09.2026</p>
+                    <p><b>Tại:</b> Gia đình Nhà Trai</p>
+                    <p style="font-size: 13px; color: #666; margin-top: 4px;">Thôn Phúc Lộc - Xã Hải Hưng - Tỉnh Ninh Bình</p>
+                </div>
+                <div class="info-card">
+                    <h4>BỮA CƠM THÂN MẬT</h4>
+                    <p><b>Thời gian:</b> 10:00 sáng</p>
+                    <p><b>Ngày:</b> 27.09.2026</p>
+                    <p><b>Tại:</b> Gia đình Nhà Trai</p>
+                    <p style="font-size: 13px; color: #666; margin-top: 4px;">Thôn Phúc Lộc - Xã Hải Hưng - Tỉnh Ninh Bình</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="section-box" style="background: #fff8f5;">
+            <h3>Bản Đồ Chỉ Dẫn</h3>
+            <p style="font-size: 15px; color: #555; margin-bottom: 15px;">
+                Tư gia Nhà Trai: <b>Thôn Phúc Lộc, Xã Hải Hưng, Tỉnh Ninh Bình</b>
+            </p>
+            <div style="width:100%; height:250px; border-radius: 8px; overflow:hidden; border: 1px solid #ddd;">
+                <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=Th%C3%B4n+Ph%C3%BAc+L%E1%BB%99c+H%E1%BA%A3i+H%C6%B0ng+Ninh+B%C3%ACnh&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
+            </div>
+        </div>
+
+        <div class="footer-note">
+            <p>Sự hiện diện của Quý vị là niềm vinh hạnh lớn cho gia đình chúng tôi!</p>
+            <p style="margin-top: 10px; font-family: 'Great Vibes', cursive; font-size: 28px;">Trân trọng kính mời & Cảm ơn!</p>
+        </div>
+    </div>
+
+    <script>
+        // Lấy tên khách mời tự động qua đường dẫn (Ví dụ: index.html?to=Anh+Tuấn)
+        const urlParams = new URLSearchParams(window.location.search);
+        const guest = urlParams.get('to');
+        if (guest) {
+            document.getElementById('guestNameDisplay').innerText = guest.replace(/\+/g, ' ');
+        }
+
+        function openInvitation() {
+            const cover = document.getElementById('cover-screen');
+            const main = document.getElementById('main-content');
+            
+            cover.style.opacity = '0';
+            cover.style.transform = 'scale(1.1)';
+            
+            setTimeout(() => {
+                cover.style.display = 'none';
+                main.style.display = 'block';
+                setTimeout(() => {
+                    main.style.opacity = '1';
+                }, 50);
+            }, 1000);
+        }
+    </script>
+</body>
+</html>
