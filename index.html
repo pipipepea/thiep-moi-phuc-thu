@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Thiệp Cưới - Văn Phúc & Minh Thư</title>
-    <!-- Google Fonts: Đổi sang Lora để số hiển thị thẳng hàng, Great Vibes cho chữ ký -->
+    <!-- Google Fonts: Lora cho nội dung, Great Vibes cho chữ ký -->
     <link href="https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:ital,wght@0,400..700;1,400..700&display=swap" rel="stylesheet">
     <style>
         * {
@@ -72,25 +72,41 @@
             font-size: 48px;
             margin: 15px 0;
             color: #FFF;
-            /* Hiệu ứng phát sáng (glow) vàng kim bao quanh tên cô dâu chú rể */
+            line-height: 1.2;
+            /* Hiệu ứng phát sáng */
             text-shadow: 0 0 10px rgba(255, 215, 0, 0.8), 
                          0 0 20px rgba(255, 215, 0, 0.6), 
                          0 0 30px rgba(255, 215, 0, 0.4), 
                          2px 2px 5px rgba(0,0,0,0.9);
         }
-        .cover-content p {
-            font-size: 16px;
+        .cover-content p.invite-text {
+            font-size: 18px; /* Tăng từ 16px lên */
             color: #f1f1f1;
             margin-bottom: 5px;
+            text-transform: uppercase;
+            letter-spacing: 1px;
         }
         .guest-name {
-            font-size: 22px;
+            font-size: 24px; /* Tăng xíu */
             font-weight: bold;
             color: #FFD700;
             margin: 12px 0 22px 0;
             text-transform: uppercase;
             letter-spacing: 1px;
             text-shadow: 0 0 8px rgba(255,215,0,0.6);
+        }
+        /* Style riêng cho ngày tháng ở bìa */
+        .cover-date {
+            margin-bottom: 25px;
+            font-size: 20px; /* Tăng kích thước đáng kể */
+            color: #FFD700;
+            font-weight: bold;
+            letter-spacing: 2px;
+            text-shadow: 1px 1px 3px rgba(0,0,0,0.8);
+            border-top: 1px solid rgba(255, 215, 0, 0.3);
+            border-bottom: 1px solid rgba(255, 215, 0, 0.3);
+            padding: 8px 0;
+            display: inline-block;
         }
         
         .open-btn {
@@ -109,6 +125,8 @@
             opacity: 0;
             pointer-events: none;
             animation: fadeInButton 1.5s ease 4s forwards;
+            display: block;
+            margin: 0 auto;
         }
         .open-btn:hover {
             background: #fff;
@@ -135,28 +153,46 @@
             display: none;
         }
         .hero-section {
-            background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('DUY00720.jpg') center/cover;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.3)), url('DUY00720.jpg') center/cover;
             height: 480px;
             display: flex;
             flex-direction: column;
-            justify-content: flex-end;
+            justify-content: center; /* Đẩy lên giữa thay vì flex-end */
             align-items: center;
             text-align: center;
             color: white;
-            padding-bottom: 40px;
+            padding: 20px;
             border-bottom: 5px solid #8B0000;
+        }
+        .hero-section p.hero-event {
+            font-size: 24px; /* Tăng kích thước Lễ Thành Hôn */
+            font-weight: bold;
+            letter-spacing: 4px;
+            text-transform: uppercase;
+            color: #FFF;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.8);
+            margin-bottom: -10px; /* Kéo gần lại chữ ký */
         }
         .hero-section h2 {
             font-family: 'Great Vibes', cursive;
-            font-size: 58px;
+            font-size: 65px; /* Tăng to hơn nữa */
             color: #FFD700;
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 2px 2px 5px rgba(0,0,0,0.9);
+            line-height: 1.2;
+            margin: 20px 0;
         }
-        .hero-section p {
-            font-size: 18px;
-            letter-spacing: 2px;
-            text-transform: uppercase;
+        .hero-section p.hero-date {
+            font-size: 22px; /* Tăng to ngày tháng */
+            font-weight: bold;
+            letter-spacing: 5px;
+            color: #FFD700;
+            text-shadow: 2px 2px 6px rgba(0,0,0,0.9);
+            background: rgba(0, 0, 0, 0.4); /* Nền mờ giúp ngày nổi bật hơn */
+            padding: 5px 15px;
+            border-radius: 20px;
+            border: 1px solid rgba(255, 215, 0, 0.5);
         }
+        
         .section-box {
             padding: 40px 25px;
             text-align: center;
@@ -264,11 +300,16 @@
     <div id="cover-screen">
         <div class="cover-content">
             <div class="symbol">囍 囍</div>
-            <p>Trân trọng kính mời</p>
+            <p class="invite-text">Trân trọng kính mời</p>
             <div class="guest-name" id="guestNameDisplay">Quý Khách</div>
-            <p>Đến dự lễ thành hôn của hai chúng tôi</p>
-            <h1>Văn Phúc & Minh Thư</h1>
-            <p style="margin-bottom: 20px; font-size: 16px; color: #FFD700; font-weight: bold;">Chủ Nhật, 27.09.2026</p>
+            <p class="invite-text" style="font-size: 15px;">Đến dự lễ thành hôn của</p>
+            
+            <!-- Đã bọc thẻ span để tránh rớt dòng vô duyên trên mobile -->
+            <h1><span style="white-space: nowrap;">Văn Phúc</span> & <span style="white-space: nowrap;">Minh Thư</span></h1>
+            
+            <!-- Ngày tháng được làm to và nổi bật có viền trên dưới -->
+            <div class="cover-date">CHỦ NHẬT • 27.09.2026</div>
+            
             <button class="open-btn" onclick="openInvitation()">Mở Thiệp</button>
         </div>
     </div>
@@ -276,9 +317,14 @@
     <!-- NỘI DUNG CHÍNH (ẨN ĐẾN KHI BẤM MỞ) -->
     <div id="main-content">
         <div class="hero-section">
-            <p>Lễ Thành Hôn</p>
-            <h2>Văn Phúc & Minh Thư</h2>
-            <p>27.09.2026</p>
+            <!-- Chữ Lễ Thành Hôn được làm to, dập chìm nhẹ -->
+            <p class="hero-event">Lễ Thành Hôn</p>
+            
+            <!-- Đã bọc thẻ span để tránh rớt dòng trên mobile, tên to hơn -->
+            <h2><span style="white-space: nowrap;">Văn Phúc</span> & <span style="white-space: nowrap;">Minh Thư</span></h2>
+            
+            <!-- Ngày tháng được làm to, có khung nền mờ giúp tách biệt khỏi ảnh nền rối -->
+            <p class="hero-date">27 • 09 • 2026</p>
         </div>
 
         <div class="section-box">
@@ -331,11 +377,9 @@
                 Tư gia Nhà Trai: <b>Thôn Phúc Lộc, Xã Hải Hưng, Tỉnh Ninh Bình</b>
             </p>
             <div style="width:100%; height:250px; border-radius: 8px; overflow:hidden; border: 1px solid #ddd;">
-                <!-- Cập nhật iframe ghim đúng tọa độ 20.19079, 106.3245 -->
                 <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=20.19079,106.3245&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
             </div>
             
-            <!-- Nút bấm chỉ đường -->
             <a href="https://www.google.com/maps/dir/?api=1&destination=20.19079,106.3245" target="_blank" class="map-btn">
                 📍 Mở Bản Đồ Chỉ Đường
             </a>
