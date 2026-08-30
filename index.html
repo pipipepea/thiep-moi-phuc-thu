@@ -60,11 +60,13 @@
             z-index: 2;
             position: relative;
         }
+        
+        /* CHỮ HỶ MỚI - 1 chữ duy nhất, to và rực rỡ hơn */
         .cover-content .symbol {
-            font-size: 55px;
-            margin-bottom: 5px;
-            text-shadow: 0 0 12px #FFD700;
-            letter-spacing: 10px;
+            font-size: 85px; 
+            margin-bottom: 10px; 
+            text-shadow: 0 0 15px #FFD700, 2px 2px 5px rgba(0,0,0,0.8);
+            line-height: 1;
         }
         
         .cover-content h1 {
@@ -310,7 +312,9 @@
     <!-- MÀN HÌNH BÌA CHỜ MỞ THIỆP -->
     <div id="cover-screen">
         <div class="cover-content">
-            <div class="symbol">囍 囍</div>
+            <!-- Thay đổi 2 chữ 囍 thành 1 chữ 囍 duy nhất -->
+            <div class="symbol">囍</div>
+            
             <p class="invite-text">Trân trọng kính mời</p>
             <div class="guest-name" id="guestNameDisplay">Quý Khách</div>
             <p class="invite-text" style="font-size: 15px;">Đến dự lễ thành hôn của</p>
