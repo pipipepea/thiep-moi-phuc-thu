@@ -66,9 +66,13 @@
             text-shadow: 0 0 12px #FFD700;
             letter-spacing: 10px;
         }
+        
+        /* Tên cô dâu chú rể ở ngoài bìa */
         .cover-content h1 {
             font-family: 'Great Vibes', cursive;
-            font-size: 48px;
+            /* Tự động co giãn theo chiều ngang màn hình để không bị tràn viền */
+            font-size: clamp(24px, 8vw, 55px); 
+            white-space: nowrap; /* Đảm bảo nằm 1 dòng */
             margin: 15px 0;
             color: #FFF;
             line-height: 1.2;
@@ -150,43 +154,47 @@
         
         /* PHẦN ẢNH NỀN (HERO SECTION) */
         .hero-section {
-            /* Lớp phủ gradient: mờ ở trên (0.1) để rõ mặt, tối dần xuống dưới (0.7) để nổi chữ */
             background: linear-gradient(to bottom, rgba(0,0,0,0.1) 0%, rgba(0,0,0,0.7) 100%), url('DUY00720.jpg') center/cover;
-            height: 520px; /* Tăng nhẹ chiều cao để rộng rãi hơn */
+            height: 520px; 
             display: flex;
             flex-direction: column;
-            justify-content: flex-end; /* Đẩy chữ xuống sát dưới cùng */
+            justify-content: flex-end; 
             align-items: center;
             text-align: center;
             color: white;
-            padding-bottom: 35px; /* Giữ khoảng cách với viền dưới */
+            padding-bottom: 35px; 
             border-bottom: 5px solid #8B0000;
+            overflow: hidden; /* Ngăn chặn việc chữ đẩy ra ngoài khung */
         }
         .hero-section p.hero-event {
             font-family: 'Lora', serif;
-            font-size: 26px; /* Chữ lớn hơn */
-            font-weight: 400; /* Nét thanh mảnh tinh tế, không in đậm */
-            letter-spacing: 8px; /* Giãn chữ cực kỳ sang trọng */
+            font-size: 22px; /* Kích thước tinh tế hơn */
+            font-weight: 400; 
+            letter-spacing: 6px; 
             text-transform: uppercase;
             color: #FFF;
             text-shadow: 2px 2px 4px rgba(0,0,0,0.8);
             margin-bottom: 0px; 
         }
+        
+        /* Tên cô dâu chú rể ở phần ảnh nền */
         .hero-section h2 {
             font-family: 'Great Vibes', cursive;
-            /* Dùng clamp để chữ tự thu nhỏ cho vừa màn hình đt, to nhất là 65px */
-            font-size: clamp(40px, 12vw, 65px); 
-            white-space: nowrap; /* ÉP BUỘC nằm trên 1 dòng */
+            /* Công thức co giãn sâu hơn để luôn vừa màn hình */
+            font-size: clamp(24px, 8vw, 65px); 
+            white-space: nowrap; /* Bắt buộc 1 dòng */
             color: #FFD700;
             text-shadow: 0 0 15px rgba(255, 215, 0, 0.9), 2px 2px 5px rgba(0,0,0,0.9);
             line-height: 1.2;
             margin: 10px 0 20px 0;
             padding: 0 10px;
+            width: 100%; /* Giới hạn chiều rộng */
         }
+        
         .hero-section p.hero-date {
-            font-size: 22px; 
+            font-size: 20px; 
             font-weight: bold;
-            letter-spacing: 5px;
+            letter-spacing: 4px;
             color: #FFD700;
             text-shadow: 2px 2px 6px rgba(0,0,0,0.9);
             background: rgba(0, 0, 0, 0.3); 
@@ -306,7 +314,7 @@
             <div class="guest-name" id="guestNameDisplay">Quý Khách</div>
             <p class="invite-text" style="font-size: 15px;">Đến dự lễ thành hôn của</p>
             
-            <h1 style="white-space: nowrap;">Văn Phúc & Minh Thư</h1>
+            <h1>Văn Phúc & Minh Thư</h1>
             
             <div class="cover-date">CHỦ NHẬT • 27.09.2026</div>
             
@@ -319,7 +327,6 @@
         <div class="hero-section">
             <p class="hero-event">Lễ Thành Hôn</p>
             
-            <!-- Tên 2 người ép trên 1 dòng tuyệt đối -->
             <h2>Văn Phúc & Minh Thư</h2>
             
             <p class="hero-date">27 • 09 • 2026</p>
