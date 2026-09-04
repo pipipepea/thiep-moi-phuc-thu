@@ -90,24 +90,31 @@
         .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .gallery img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 
-        /* KHU VỰC THẢ XUỐNG CHO QUÀ TẶNG */
+        /* KHU VỰC THẢ VÀO CHO QUÀ TẶNG (QR LỚN) */
         .qr-section { 
             background: #fdf5f0; 
             padding: 0 20px; 
             max-height: 0; 
             overflow: hidden; 
-            transition: max-height 0.5s ease-out, padding 0.5s ease-out; 
+            transition: max-height 0.6s ease-out, padding 0.6s ease-out; 
             border-radius: 10px; 
             margin-top: 0; 
             border: 0px dashed #d4a373; 
         }
         .qr-section.show { 
-            max-height: 500px; 
-            padding: 20px; 
+            max-height: 650px; 
+            padding: 25px 20px; 
             margin-top: 20px; 
             border: 1px dashed #d4a373; 
         }
-        .qr-section img { width: 150px; height: 150px; border-radius: 8px; margin: 10px 0; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
+        .qr-section img { 
+            width: 220px; 
+            height: 220px; 
+            border-radius: 10px; 
+            margin: 12px 0; 
+            border: 3px solid #fff; 
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15); 
+        }
         .bank-info { font-size: 15px; line-height: 1.6; }
 
         .gift-jump-btn {
@@ -129,7 +136,7 @@
         .rsvp-btn:hover { background: #600000; }
         .rsvp-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* CSS CHO ẢNH NGUYÊN KHỐI LÀM NÚT BẤM BẢN ĐỒ */
+        /* NÚT BẢN ĐỒ CHIBI NGUYÊN KHỐI */
         .chibi-full-btn {
             display: inline-block;
             width: 100%;
@@ -149,11 +156,15 @@
 
         .footer-note { background: #8B0000; color: white; padding: 35px 20px; text-align: center; font-size: 16px; }
         
+        /* NÚT NHẠC DẠNG ICON TRÒN GỌN GÀNG */
         #audio-toggle {
             position: fixed; bottom: 20px; right: 20px; background: #FFD700; color: #8B0000; 
-            padding: 10px 15px; border-radius: 30px; font-size: 14px; font-weight: bold; 
-            cursor: pointer; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; border: none;
+            width: 45px; height: 45px; border-radius: 50%; font-size: 20px; 
+            display: flex; justify-content: center; align-items: center;
+            cursor: pointer; z-index: 1000; box-shadow: 0 4px 12px rgba(0,0,0,0.3); 
+            display: none; border: none; transition: transform 0.3s;
         }
+        #audio-toggle:hover { transform: scale(1.1); }
 
         .slide-in-left { opacity: 0; transform: translateX(-100px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
         .slide-in-right { opacity: 0; transform: translateX(100px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
@@ -167,7 +178,7 @@
         <source src="Nhac.mp3" type="audio/mp3">
     </audio>
     
-    <button id="audio-toggle" onclick="toggleAudio()">🎵 Tắt Nhạc</button>
+    <button id="audio-toggle" onclick="toggleAudio()">🎵</button>
 
     <!-- BÌA THIỆP -->
     <div id="cover-screen">
@@ -306,10 +317,10 @@
             <!-- KHU VỰC THẢ XUỐNG KÍN ĐÁO -->
             <div id="bank-transfer-section" class="qr-section">
                 <p class="invitation-text" style="font-size: 15px; margin-top: 5px;">Chân thành cảm ơn tình cảm và sự quan tâm của bạn!</p>
-                <img src="qr-mung-cuoi.jpg" alt="QR Code" onerror="this.src='https://via.placeholder.com/150?text=QR+Code'">
+                <img src="qr-mung-cuoi.jpg" alt="QR Code" onerror="this.src='https://via.placeholder.com/220?text=QR+Code'">
                 <div class="bank-info">
-                    <p><b>Ngân hàng:</b> TP bank</p>
-                    <p><b>STK:</b> 0000 3542 109 </p>
+                    <p><b>Ngân hàng:</b> TP Bank</p>
+                    <p><b>STK:</b> 0000 3542 109</p>
                     <p><b>Chủ TK:</b> NGUYEN VAN PHUC</p>
                 </div>
             </div>
@@ -382,7 +393,7 @@
         function openInvitation() {
             const audio = document.getElementById('wedding-audio');
             audio.play().catch(e => console.log("Trình duyệt chặn autoplay", e));
-            document.getElementById('audio-toggle').style.display = 'block';
+            document.getElementById('audio-toggle').style.display = 'flex';
 
             var duration = 3000; 
             var end = Date.now() + duration;
@@ -406,7 +417,7 @@
             }, 1000);
         }
 
-        // Tắt bật nhạc
+        // Tắt bật nhạc dạng icon tròn
         let isAudioPlaying = true;
         function toggleAudio() {
             const audio = document.getElementById('wedding-audio');
@@ -416,7 +427,7 @@
                 btn.innerText = '🔇';
             } else {
                 audio.play();
-                btn.innerText = '🎵 ';
+                btn.innerText = '🎵';
             }
             isAudioPlaying = !isAudioPlaying;
         }
