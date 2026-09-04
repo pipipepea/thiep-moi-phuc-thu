@@ -100,6 +100,7 @@
         .rsvp-form input, .rsvp-form select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit; font-size: 15px; }
         .rsvp-btn { background: #8B0000; color: #fff; border: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; width: 100%; }
         .rsvp-btn:hover { background: #600000; }
+        .rsvp-btn:disabled { background: #ccc; cursor: not-allowed; }
 
         .footer-note { background: #8B0000; color: white; padding: 35px 20px; text-align: center; font-size: 16px; }
         .map-btn { display: inline-block; background: #8B0000; color: #FFD700; text-decoration: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 30px; margin-top: 20px; transition: 0.3s; }
@@ -111,31 +112,10 @@
             cursor: pointer; z-index: 1000; box-shadow: 0 4px 10px rgba(0,0,0,0.3); display: none; border: none;
         }
 
-        /* ---------------------------------------------------
-           CÁC CLASS HIỆU ỨNG KÉO CUỘN (SCROLL ANIMATION) 
-           --------------------------------------------------- */
-        .slide-in-left {
-            opacity: 0;
-            transform: translateX(-100px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        
-        .slide-in-right {
-            opacity: 0;
-            transform: translateX(100px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-        
-        .slide-in-up {
-            opacity: 0;
-            transform: translateY(60px);
-            transition: opacity 0.8s ease-out, transform 0.8s ease-out;
-        }
-
-        .is-visible {
-            opacity: 1;
-            transform: translateX(0) translateY(0);
-        }
+        .slide-in-left { opacity: 0; transform: translateX(-100px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .slide-in-right { opacity: 0; transform: translateX(100px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .slide-in-up { opacity: 0; transform: translateY(60px); transition: opacity 0.8s ease-out, transform 0.8s ease-out; }
+        .is-visible { opacity: 1; transform: translateX(0) translateY(0); }
     </style>
 </head>
 <body>
@@ -179,9 +159,7 @@
 
         <div class="section-box slide-in-up">
             <h3>Lời Ngỏ</h3>
-            <p class="invitation-text">
-                Tới dự bữa cơm thân mật cùng gia đình chúng tôi nhân lễ thành hôn của con trai và con gái yêu quý:
-            </p>
+            <p class="invitation-text">Tới dự bữa cơm thân mật cùng gia đình chúng tôi nhân lễ thành hôn của con trai và con gái yêu quý:</p>
             <div class="parents-section">
                 <div class="parent-group slide-in-left">
                     <h4>NHÀ TRAI</h4>
@@ -262,15 +240,20 @@
             <h3>Xác Nhận Tham Dự</h3>
             <p class="invitation-text">Để gia đình chuẩn bị đón tiếp chu đáo nhất, vui lòng xác nhận sự hiện diện của bạn.</p>
             
-            <form class="rsvp-form" id="rsvpForm" onsubmit="submitRSVP(event)">
-                <input type="text" id="rsvpName" placeholder="Tên của bạn..." required>
-                <select id="rsvpCount" required>
+            <!-- IFRAME ẨN ĐỂ XỬ LÝ GOOGLE SCRIPT MÀ KHÔNG BỊ LỖI CORS -->
+            <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){ xacNhanXong(); }"></iframe>
+            
+            <!-- FORM ĐƯỢC CHỈNH SỬA LẠI ACTION VÀ TARGET -->
+            <form class="rsvp-form" id="rsvpForm" action="https://script.google.com/macros/s/AKfycbygpNu-xVoZgzXmJAIH-VPDT1ONZJjv0hrLsnrCpS5EbUU_0ormr6QGoO88fNMRVimI6A/exec" method="POST" target="hidden_iframe" onsubmit="dangGui();">
+                <!-- Chú ý thuộc tính name="name" và name="count" là bắt buộc -->
+                <input type="text" name="name" id="rsvpName" placeholder="Tên của bạn..." required>
+                <select name="count" id="rsvpCount" required>
                     <option value="" disabled selected>Số người tham dự...</option>
                     <option value="1">1 người</option>
                     <option value="2">2 người</option>
                     <option value="0">Rất tiếc, tôi không thể đến</option>
                 </select>
-                <button type="submit" class="rsvp-btn">Gửi Xác Nhận</button>
+                <button type="submit" class="rsvp-btn" id="btn-submit">Gửi Xác Nhận</button>
             </form>
 
             <div class="qr-section slide-in-up">
@@ -307,7 +290,7 @@
     <script src="https://cdn.jsdelivr.net/npm/canvas-confetti@1.6.0/dist/confetti.browser.min.js"></script>
     
     <script>
-        // Xử lý tên khách mời
+        // Xử lý tên khách mời từ URL
         const urlParams = new URLSearchParams(window.location.search);
         const guest = urlParams.get('to');
         if (guest) {
@@ -315,7 +298,7 @@
             document.getElementById('rsvpName').value = guest.replace(/\+/g, ' ');
         }
 
-        // Logic đếm ngược
+        // Đếm ngược thời gian
         const weddingDate = new Date("Sep 27, 2026 09:00:00").getTime();
         const countdownTimer = setInterval(function() {
             const now = new Date().getTime();
@@ -333,14 +316,9 @@
             document.getElementById("secs").innerText = Math.floor((distance % (1000 * 60)) / 1000).toString().padStart(2, '0');
         }, 1000);
 
-        // Kích hoạt Observer cho Scroll Animations
+        // Hiệu ứng Scroll
         function initScrollAnimations() {
-            const observerOptions = {
-                root: null,
-                rootMargin: '0px',
-                threshold: 0.15
-            };
-
+            const observerOptions = { root: null, rootMargin: '0px', threshold: 0.15 };
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
@@ -358,7 +336,6 @@
         function openInvitation() {
             const audio = document.getElementById('wedding-audio');
             audio.play().catch(e => console.log("Trình duyệt chặn autoplay", e));
-            
             document.getElementById('audio-toggle').style.display = 'block';
 
             var duration = 3000; 
@@ -378,9 +355,7 @@
             setTimeout(() => {
                 cover.style.display = 'none';
                 main.style.display = 'block';
-                
                 initScrollAnimations();
-
                 setTimeout(() => { main.style.opacity = '1'; }, 50);
             }, 1000);
         }
@@ -400,63 +375,30 @@
             isAudioPlaying = !isAudioPlaying;
         }
 
-        // Submit form RSVP lưu vào Google Sheets
-        function submitRSVP(e) {
-            e.preventDefault();
-            
-            const btn = document.querySelector('.rsvp-btn');
-            const nameInput = document.getElementById('rsvpName');
-            const countInput = document.getElementById('rsvpCount');
-            
-            // 1. Đổi trạng thái nút bấm
+        // LOGIC SUBMIT FORM MỚI (Dùng Iframe Ẩn)
+        let submitted = false;
+        
+        function dangGui() {
+            submitted = true;
+            const btn = document.getElementById('btn-submit');
             btn.innerText = 'Đang gửi...';
             btn.disabled = true;
-            
-            // LINK APP SCRIPT CỦA CẬU CHỦ
-            const scriptURL = 'https://script.google.com/macros/s/AKfycbygpNu-xVoZgzXmJAIH-VPDT1ONZJjv0hrLsnrCpS5EbUU_0ormr6QGoO88fNMRVimI6A/exec'; 
-            
-            // 2. ĐÓNG GÓI DỮ LIỆU CHUẨN (Dùng URLSearchParams thay vì FormData)
-            const data = new URLSearchParams();
-            data.append('name', nameInput.value);
-            data.append('count', countInput.value);
+        }
 
-            // 3. Gửi dữ liệu đi
-            fetch(scriptURL, { 
-                method: 'POST', 
-                body: data,
-                mode: 'no-cors',
-                headers: {
-                    'Content-Type': 'application/x-www-form-urlencoded'
-                }
-            })
-            .then(response => {
-                const count = countInput.value;
-                if (count === "0") {
-                    alert("Cảm ơn bạn đã báo trước. Chúc bạn một ngày vui vẻ!");
-                } else {
-                    alert("Cảm ơn bạn đã xác nhận tham dự. Hẹn gặp lại bạn trong ngày vui của chúng tôi!");
-                }
-                
-                // Reset form và nút bấm
-                document.getElementById('rsvpForm').reset();
-                btn.innerText = 'Gửi Xác Nhận';
-                btn.disabled = false;
-            })
-            .catch(error => {
-                console.error('Error!', error.message);
-                
-                // Vẫn báo thành công cho khách vì no-cors thường bị catch nhầm
-                const count = countInput.value;
-                if (count === "0") {
-                    alert("Cảm ơn bạn đã báo trước. Chúc bạn một ngày vui vẻ!");
-                } else {
-                    alert("Cảm ơn bạn đã xác nhận tham dự. Hẹn gặp lại bạn trong ngày vui của chúng tôi!");
-                }
-                
-                document.getElementById('rsvpForm').reset();
-                btn.innerText = 'Gửi Xác Nhận';
-                btn.disabled = false;
-            });
+        function xacNhanXong() {
+            const countInput = document.getElementById('rsvpCount').value;
+            if (countInput === "0") {
+                alert("Cảm ơn bạn đã báo trước. Chúc bạn một ngày vui vẻ!");
+            } else {
+                alert("Cảm ơn bạn đã xác nhận tham dự. Hẹn gặp lại bạn trong ngày vui của chúng tôi!");
+            }
+            
+            // Khôi phục lại form
+            document.getElementById('rsvpForm').reset();
+            const btn = document.getElementById('btn-submit');
+            btn.innerText = 'Gửi Xác Nhận';
+            btn.disabled = false;
+            submitted = false;
         }
     </script>
 </body>
