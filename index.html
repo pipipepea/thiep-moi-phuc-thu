@@ -129,44 +129,22 @@
         .rsvp-btn:hover { background: #600000; }
         .rsvp-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        /* CSS CHO BẢN ĐỒ CHIBI */
-        .chibi-map-container {
-            position: relative;
+        /* CSS CHO ẢNH NGUYÊN KHỐI LÀM NÚT BẤM BẢN ĐỒ */
+        .chibi-full-btn {
             display: inline-block;
             width: 100%;
             max-width: 320px;
-            margin-top: 10px;
+            margin-top: 5px;
             text-decoration: none;
+            transition: transform 0.3s ease;
         }
-        .chibi-map-container img {
+        .chibi-full-btn img {
             width: 100%;
             height: auto;
             display: block;
-            transition: transform 0.3s ease;
         }
-        .chibi-map-container:hover img {
-            transform: scale(1.02);
-        }
-        .chibi-speech-text {
-            position: absolute;
-            top: 15%; 
-            left: 12%;
-            width: 76%;
-            height: 45%;
-            display: flex;
-            justify-content: center;
-            align-items: center;
-            text-align: center;
-            color: #8B0000;
-            font-family: 'Lora', serif;
-            font-size: 14px;
-            font-weight: 500;
-            padding: 10px;
-            border-radius: 15px;
-            transition: background 0.3s ease;
-        }
-        .chibi-map-container:hover .chibi-speech-text {
-            background: rgba(139, 0, 0, 0.04);
+        .chibi-full-btn:hover {
+            transform: scale(1.03);
         }
 
         .footer-note { background: #8B0000; color: white; padding: 35px 20px; text-align: center; font-size: 16px; }
@@ -337,18 +315,15 @@
             </div>
         </div>
 
-        <!-- BẢN ĐỒ DẠNG CHIBI SÁNG TẠO -->
+        <!-- BẢN ĐỒ DẠNG ẢNH NGUYÊN KHỐI LÀM NÚT BẤM -->
         <div class="section-box slide-in-up" style="background: #fff8f5;">
             <h3>Bản Đồ Chỉ Dẫn</h3>
-            <p style="font-size: 15px; color: #555; margin-bottom: 5px;">
+            <p style="font-size: 15px; color: #555; margin-bottom: 10px;">
                 Tư gia Nhà Trai: <b>Thôn Phúc Lộc, Xã Hải Hưng, Tỉnh Ninh Bình</b>
             </p>
             
-            <a href="https://www.google.com/maps/dir/?api=1&destination=20.19079,106.3245" target="_blank" class="chibi-map-container">
-                <img src="map-chibi.png" alt="Bản đồ chibi" onerror="this.src='https://via.placeholder.com/320x300?text=Anh+Chibi+Map'">
-                <div class="chibi-speech-text">
-                    <span>Bấm vào đây để <br><b>Đến Đám Cưới Nhé!</b> ➔</span>
-                </div>
+            <a href="https://www.google.com/maps/dir/?api=1&destination=20.19079,106.3245" target="_blank" class="chibi-full-btn">
+                <img src="map-chibi.png" alt="Bản đồ chỉ dẫn" onerror="this.src='https://via.placeholder.com/320x300?text=Anh+Chibi+Map'">
             </a>
         </div>
 
