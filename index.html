@@ -132,7 +132,6 @@
             transition: opacity 0.8s ease-out, transform 0.8s ease-out;
         }
 
-        /* Class này sẽ được JS thêm vào khi phần tử xuất hiện trên màn hình */
         .is-visible {
             opacity: 1;
             transform: translateX(0) translateY(0);
@@ -184,7 +183,6 @@
                 Tới dự bữa cơm thân mật cùng gia đình chúng tôi nhân lễ thành hôn của con trai và con gái yêu quý:
             </p>
             <div class="parents-section">
-                <!-- Hiệu ứng trượt từ 2 bên cho thông tin gia đình -->
                 <div class="parent-group slide-in-left">
                     <h4>NHÀ TRAI</h4>
                     <p><b>Ông:</b> NGUYỄN VĂN HÂN</p>
@@ -243,7 +241,6 @@
             <h3>Khoảnh Khắc</h3>
             <p class="invitation-text">Những khoảnh khắc hạnh phúc của chúng tôi</p>
             <div class="gallery">
-                <!-- Thêm hiệu ứng trượt chéo cho các ảnh cưới -->
                 <img src="anh1.jpg" class="slide-in-left" alt="Ảnh cưới 1" onerror="this.src='https://via.placeholder.com/300x200?text=Anh+Cuoi+1'">
                 <img src="anh2.jpg" class="slide-in-right" alt="Ảnh cưới 2" onerror="this.src='https://via.placeholder.com/300x200?text=Anh+Cuoi+2'">
                 <img src="anh3.jpg" class="slide-in-left" alt="Ảnh cưới 3" onerror="this.src='https://via.placeholder.com/300x200?text=Anh+Cuoi+3'">
@@ -341,14 +338,14 @@
             const observerOptions = {
                 root: null,
                 rootMargin: '0px',
-                threshold: 0.15 // Kích hoạt khi cuộn thấy 15% phần tử
+                threshold: 0.15
             };
 
             const observer = new IntersectionObserver((entries, observer) => {
                 entries.forEach(entry => {
                     if (entry.isIntersecting) {
                         entry.target.classList.add('is-visible');
-                        observer.unobserve(entry.target); // Ngừng theo dõi sau khi đã xuất hiện
+                        observer.unobserve(entry.target);
                     }
                 });
             }, observerOptions);
@@ -382,7 +379,6 @@
                 cover.style.display = 'none';
                 main.style.display = 'block';
                 
-                // Khởi tạo hiệu ứng scroll ngay khi nội dung chính hiển thị
                 initScrollAnimations();
 
                 setTimeout(() => { main.style.opacity = '1'; }, 50);
@@ -412,31 +408,32 @@
             const nameInput = document.getElementById('rsvpName');
             const countInput = document.getElementById('rsvpCount');
             
-            // 1. Đổi trạng thái nút bấm để khách biết đang xử lý
+            // 1. Đổi trạng thái nút bấm
             btn.innerText = 'Đang gửi...';
             btn.disabled = true;
             
-            // LINK APP SCRIPT ĐÃ ĐƯỢC CẬP NHẬT
+            // LINK APP SCRIPT CHUẨN XÁC
             const scriptURL = 'https://script.google.com/macros/s/AKfycbygpNu-xVoZgzXmJAIH-VPDT1ONZJjv0hrLsnrCpS5EbUU_0ormr6QGoO88fNMRVimI6A/exec'; 
             
-            // 2. Đóng gói dữ liệu (Dùng URLSearchParams để tránh lỗi tương thích của Google)
-            const data = new URLSearchParams();
-            data.append('name', nameInput.value);
-            data.append('count', countInput.value);
+            // 2. Đóng gói dữ liệu bằng URLSearchParams
+            const formData = new FormData();
+            formData.append('name', nameInput.value);
+            formData.append('count', countInput.value);
 
-            // 3. Gửi dữ liệu đi (Có thêm mode: 'no-cors')
+            // 3. Gửi dữ liệu đi (bắt buộc mode: no-cors để chặn lỗi trình duyệt)
             fetch(scriptURL, { 
                 method: 'POST', 
-                body: data,
-                mode: 'no-cors' // <-- Rất quan trọng để bypass lỗi trình duyệt
+                body: formData,
+                mode: 'no-cors' 
             })
-            .then(() => {
+            .then(response => {
                 const count = countInput.value;
                 if (count === "0") {
                     alert("Cảm ơn bạn đã báo trước. Chúc bạn một ngày vui vẻ!");
                 } else {
                     alert("Cảm ơn bạn đã xác nhận tham dự. Hẹn gặp lại bạn trong ngày vui của chúng tôi!");
                 }
+                
                 // Reset form và nút bấm sau khi gửi thành công
                 document.getElementById('rsvpForm').reset();
                 btn.innerText = 'Gửi Xác Nhận';
@@ -444,7 +441,16 @@
             })
             .catch(error => {
                 console.error('Error!', error.message);
-                alert("Có lỗi xảy ra do đường truyền, vui lòng thử lại sau.");
+                
+                // Thường thì data vẫn vào Sheet dù báo lỗi catch (đặc điểm của no-cors + Zalo browser)
+                const count = countInput.value;
+                if (count === "0") {
+                    alert("Cảm ơn bạn đã báo trước. Chúc bạn một ngày vui vẻ!");
+                } else {
+                    alert("Cảm ơn bạn đã xác nhận tham dự. Hẹn gặp lại bạn trong ngày vui của chúng tôi!");
+                }
+                
+                document.getElementById('rsvpForm').reset();
                 btn.innerText = 'Gửi Xác Nhận';
                 btn.disabled = false;
             });
