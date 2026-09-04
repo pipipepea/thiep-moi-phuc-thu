@@ -412,19 +412,22 @@
             btn.innerText = 'Đang gửi...';
             btn.disabled = true;
             
-            // LINK APP SCRIPT CHUẨN XÁC
+            // LINK APP SCRIPT CỦA CẬU CHỦ
             const scriptURL = 'https://script.google.com/macros/s/AKfycbygpNu-xVoZgzXmJAIH-VPDT1ONZJjv0hrLsnrCpS5EbUU_0ormr6QGoO88fNMRVimI6A/exec'; 
             
-            // 2. Đóng gói dữ liệu bằng URLSearchParams
-            const formData = new FormData();
-            formData.append('name', nameInput.value);
-            formData.append('count', countInput.value);
+            // 2. ĐÓNG GÓI DỮ LIỆU CHUẨN (Dùng URLSearchParams thay vì FormData)
+            const data = new URLSearchParams();
+            data.append('name', nameInput.value);
+            data.append('count', countInput.value);
 
-            // 3. Gửi dữ liệu đi (bắt buộc mode: no-cors để chặn lỗi trình duyệt)
+            // 3. Gửi dữ liệu đi
             fetch(scriptURL, { 
                 method: 'POST', 
-                body: formData,
-                mode: 'no-cors' 
+                body: data,
+                mode: 'no-cors',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                }
             })
             .then(response => {
                 const count = countInput.value;
@@ -434,7 +437,7 @@
                     alert("Cảm ơn bạn đã xác nhận tham dự. Hẹn gặp lại bạn trong ngày vui của chúng tôi!");
                 }
                 
-                // Reset form và nút bấm sau khi gửi thành công
+                // Reset form và nút bấm
                 document.getElementById('rsvpForm').reset();
                 btn.innerText = 'Gửi Xác Nhận';
                 btn.disabled = false;
@@ -442,7 +445,7 @@
             .catch(error => {
                 console.error('Error!', error.message);
                 
-                // Thường thì data vẫn vào Sheet dù báo lỗi catch (đặc điểm của no-cors + Zalo browser)
+                // Vẫn báo thành công cho khách vì no-cors thường bị catch nhầm
                 const count = countInput.value;
                 if (count === "0") {
                     alert("Cảm ơn bạn đã báo trước. Chúc bạn một ngày vui vẻ!");
