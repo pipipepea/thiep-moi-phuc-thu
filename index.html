@@ -90,19 +90,87 @@
         .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .gallery img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 
-        .qr-section { background: #fdf5f0; padding: 20px; border-radius: 10px; margin-top: 20px; }
-        .qr-section img { width: 150px; height: 150px; border-radius: 8px; margin: 10px 0; }
+        /* KHU VỰC THẢ XUỐNG CHO QUÀ TẶNG */
+        .qr-section { 
+            background: #fdf5f0; 
+            padding: 0 20px; 
+            max-height: 0; 
+            overflow: hidden; 
+            transition: max-height 0.5s ease-out, padding 0.5s ease-out; 
+            border-radius: 10px; 
+            margin-top: 0; 
+            border: 0px dashed #d4a373; 
+        }
+        .qr-section.show { 
+            max-height: 500px; 
+            padding: 20px; 
+            margin-top: 20px; 
+            border: 1px dashed #d4a373; 
+        }
+        .qr-section img { width: 150px; height: 150px; border-radius: 8px; margin: 10px 0; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
         .bank-info { font-size: 15px; line-height: 1.6; }
+
+        .gift-jump-btn {
+            display: inline-block;
+            background: transparent;
+            color: #8B0000;
+            border: none;
+            font-size: 14px;
+            font-style: italic;
+            text-decoration: underline;
+            cursor: pointer;
+            margin-top: 20px;
+            transition: 0.3s;
+        }
+        .gift-jump-btn:hover { color: #500000; }
 
         .rsvp-form input, .rsvp-form select, .rsvp-form textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit; font-size: 15px; }
         .rsvp-btn { background: #8B0000; color: #fff; border: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; width: 100%; }
         .rsvp-btn:hover { background: #600000; }
         .rsvp-btn:disabled { background: #ccc; cursor: not-allowed; }
 
-        .footer-note { background: #8B0000; color: white; padding: 35px 20px; text-align: center; font-size: 16px; }
-        .map-btn { display: inline-block; background: #8B0000; color: #FFD700; text-decoration: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 30px; margin-top: 20px; transition: 0.3s; }
-        .map-btn:hover { background: #FFD700; color: #8B0000; }
+        /* CSS CHO BẢN ĐỒ CHIBI */
+        .chibi-map-container {
+            position: relative;
+            display: inline-block;
+            width: 100%;
+            max-width: 320px;
+            margin-top: 10px;
+            text-decoration: none;
+        }
+        .chibi-map-container img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.3s ease;
+        }
+        .chibi-map-container:hover img {
+            transform: scale(1.02);
+        }
+        .chibi-speech-text {
+            position: absolute;
+            top: 15%; 
+            left: 12%;
+            width: 76%;
+            height: 45%;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            text-align: center;
+            color: #8B0000;
+            font-family: 'Lora', serif;
+            font-size: 14px;
+            font-weight: 500;
+            padding: 10px;
+            border-radius: 15px;
+            transition: background 0.3s ease;
+        }
+        .chibi-map-container:hover .chibi-speech-text {
+            background: rgba(139, 0, 0, 0.04);
+        }
 
+        .footer-note { background: #8B0000; color: white; padding: 35px 20px; text-align: center; font-size: 16px; }
+        
         #audio-toggle {
             position: fixed; bottom: 20px; right: 20px; background: #FFD700; color: #8B0000; 
             padding: 10px 15px; border-radius: 30px; font-size: 14px; font-weight: bold; 
@@ -223,12 +291,11 @@
             </div>
         </div>
 
-        <!-- THAY THẾ DRESS CODE BẰNG GÓC KỶ NIỆM / GỬI LỜI NHẮN -->
         <div class="section-box slide-in-up" style="background: #fff8f5;">
             <h3>Góc Kỷ Niệm & Lời Nhắn</h3>
             <p class="invitation-text">Sự hiện diện và những lời chúc tốt đẹp của bạn là món quà quý giá nhất đối với chúng tôi.</p>
             <div style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #faedcd; text-align: left; font-size: 15px; color: #555; line-height: 1.6;">
-                <p style="margin-bottom: 10px; text-align: center; color: #8B0000; font-weight: bold;">💌 Gửi lời chúc đến cô dâu & chú rể</p>
+                <p style="margin-bottom: 10px; text-align: center; color: #8B0000; font-weight: bold;">💌 Gửi gắm yêu thương</p>
                 <p>Mỗi lời chúc, mỗi kỷ niệm đẹp mà mọi người chia sẻ sẽ là hành trang tuyệt vời cho khởi đầu mới của vợ chồng chúng tôi. Hãy để lại đôi dòng nhắn gửi ở phần xác nhận tham dự phía dưới nhé!</p>
             </div>
         </div>
@@ -240,7 +307,7 @@
             <!-- IFRAME ẨN -->
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){ xacNhanXong(); }"></iframe>
             
-            <!-- FORM TÍCH HỢP THÊM Ô NHẬP LỜI CHÚC (name="message") -->
+            <!-- FORM -->
             <form class="rsvp-form" id="rsvpForm" action="https://script.google.com/macros/s/AKfycbygpNu-xVoZgzXmJAIH-VPDT1ONZJjv0hrLsnrCpS5EbUU_0ormr6QGoO88fNMRVimI6A/exec" method="POST" target="hidden_iframe" onsubmit="dangGui();">
                 <input type="text" name="name" id="rsvpName" placeholder="Tên của bạn..." required>
                 <select name="count" id="rsvpCount" required>
@@ -253,9 +320,14 @@
                 <button type="submit" class="rsvp-btn" id="btn-submit">Gửi Xác Nhận & Lời Chúc</button>
             </form>
 
-            <div class="qr-section slide-in-up">
-                <h3>Gửi Quà Tặng</h3>
-                <p class="invitation-text">Nếu không thể tới chung vui, bạn có thể gửi lời chúc qua tài khoản:</p>
+            <!-- GỢI Ý MỪNG CƯỚI TỪ XA TẾ NHỊ -->
+            <button type="button" class="gift-jump-btn" onclick="toggleBankQR()">
+                Dành cho bạn bè ở xa muốn gửi chút quà mừng tới cô dâu chú rể 🤍
+            </button>
+
+            <!-- KHU VỰC THẢ XUỐNG KÍN ĐÁO -->
+            <div id="bank-transfer-section" class="qr-section">
+                <p class="invitation-text" style="font-size: 15px; margin-top: 5px;">Chân thành cảm ơn tình cảm và sự quan tâm của bạn!</p>
                 <img src="qr-mung-cuoi.jpg" alt="QR Code" onerror="this.src='https://via.placeholder.com/150?text=QR+Code'">
                 <div class="bank-info">
                     <p><b>Ngân hàng:</b> MB Bank</p>
@@ -265,16 +337,18 @@
             </div>
         </div>
 
+        <!-- BẢN ĐỒ DẠNG CHIBI SÁNG TẠO -->
         <div class="section-box slide-in-up" style="background: #fff8f5;">
             <h3>Bản Đồ Chỉ Dẫn</h3>
-            <p style="font-size: 15px; color: #555; margin-bottom: 15px;">
+            <p style="font-size: 15px; color: #555; margin-bottom: 5px;">
                 Tư gia Nhà Trai: <b>Thôn Phúc Lộc, Xã Hải Hưng, Tỉnh Ninh Bình</b>
             </p>
-            <div style="width:100%; height:250px; border-radius: 8px; overflow:hidden; border: 1px solid #ddd;">
-                <iframe width="100%" height="100%" frameborder="0" scrolling="no" marginheight="0" marginwidth="0" src="https://maps.google.com/maps?q=20.19079,106.3245&t=&z=15&ie=UTF8&iwloc=&output=embed"></iframe>
-            </div>
-            <a href="https://www.google.com/maps/dir/?api=1&destination=20.19079,106.3245" target="_blank" class="map-btn">
-                📍 Mở Bản Đồ Chỉ Đường
+            
+            <a href="https://www.google.com/maps/dir/?api=1&destination=20.19079,106.3245" target="_blank" class="chibi-map-container">
+                <img src="map-chibi.png" alt="Bản đồ chibi" onerror="this.src='https://via.placeholder.com/320x300?text=Anh+Chibi+Map'">
+                <div class="chibi-speech-text">
+                    <span>Bấm vào đây để <br><b>Đến Đám Cưới Nhé!</b> ➔</span>
+                </div>
             </a>
         </div>
 
@@ -370,6 +444,18 @@
                 btn.innerText = '🎵 Tắt Nhạc';
             }
             isAudioPlaying = !isAudioPlaying;
+        }
+
+        // HÀM HIỆN / ẨN KHU VỰC THẢ XUỐNG
+        function toggleBankQR() {
+            const qrSection = document.getElementById('bank-transfer-section');
+            qrSection.classList.toggle('show');
+            
+            if (qrSection.classList.contains('show')) {
+                setTimeout(() => {
+                    qrSection.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                }, 200);
+            }
         }
 
         // LOGIC SUBMIT FORM VỚI Ô LỜI CHÚC
