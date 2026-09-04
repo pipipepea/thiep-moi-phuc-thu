@@ -419,31 +419,35 @@
             // LINK APP SCRIPT ĐÃ ĐƯỢC CẬP NHẬT
             const scriptURL = 'https://script.google.com/macros/s/AKfycbygpNu-xVoZgzXmJAIH-VPDT1ONZJjv0hrLsnrCpS5EbUU_0ormr6QGoO88fNMRVimI6A/exec'; 
             
-            // 2. Đóng gói dữ liệu
-            const formData = new FormData();
-            formData.append('name', nameInput.value);
-            formData.append('count', countInput.value);
+            // 2. Đóng gói dữ liệu (Dùng URLSearchParams để tránh lỗi tương thích của Google)
+            const data = new URLSearchParams();
+            data.append('name', nameInput.value);
+            data.append('count', countInput.value);
 
-            // 3. Gửi dữ liệu đi qua Google Sheets
-            fetch(scriptURL, { method: 'POST', body: formData })
-                .then(response => {
-                    const count = countInput.value;
-                    if (count === "0") {
-                        alert("Cảm ơn bạn đã báo trước. Chúc bạn một ngày vui vẻ!");
-                    } else {
-                        alert("Cảm ơn bạn đã xác nhận tham dự. Hẹn gặp lại bạn trong ngày vui của chúng tôi!");
-                    }
-                    // Reset form và nút bấm sau khi gửi thành công
-                    document.getElementById('rsvpForm').reset();
-                    btn.innerText = 'Gửi Xác Nhận';
-                    btn.disabled = false;
-                })
-                .catch(error => {
-                    console.error('Error!', error.message);
-                    alert("Có lỗi xảy ra do đường truyền, vui lòng thử lại sau.");
-                    btn.innerText = 'Gửi Xác Nhận';
-                    btn.disabled = false;
-                });
+            // 3. Gửi dữ liệu đi (Có thêm mode: 'no-cors')
+            fetch(scriptURL, { 
+                method: 'POST', 
+                body: data,
+                mode: 'no-cors' // <-- Rất quan trọng để bypass lỗi trình duyệt
+            })
+            .then(() => {
+                const count = countInput.value;
+                if (count === "0") {
+                    alert("Cảm ơn bạn đã báo trước. Chúc bạn một ngày vui vẻ!");
+                } else {
+                    alert("Cảm ơn bạn đã xác nhận tham dự. Hẹn gặp lại bạn trong ngày vui của chúng tôi!");
+                }
+                // Reset form và nút bấm sau khi gửi thành công
+                document.getElementById('rsvpForm').reset();
+                btn.innerText = 'Gửi Xác Nhận';
+                btn.disabled = false;
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                alert("Có lỗi xảy ra do đường truyền, vui lòng thử lại sau.");
+                btn.innerText = 'Gửi Xác Nhận';
+                btn.disabled = false;
+            });
         }
     </script>
 </body>
