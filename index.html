@@ -87,9 +87,6 @@
         .info-card h4 { color: #8B0000; margin-bottom: 12px; text-align: center; font-size: 18px; min-height: 50px; display: flex; align-items: center; justify-content: center; }
         .info-card p { font-size: 14px; line-height: 1.5; color: #555; margin-bottom: 6px; }
         
-        .dress-code-colors { display: flex; justify-content: center; gap: 15px; margin-top: 10px; }
-        .color-circle { width: 40px; height: 40px; border-radius: 50%; border: 1px solid #ccc; box-shadow: 0 2px 5px rgba(0,0,0,0.1); }
-
         .gallery { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 20px; }
         .gallery img { width: 100%; height: 200px; object-fit: cover; border-radius: 8px; border: 2px solid #fff; box-shadow: 0 2px 8px rgba(0,0,0,0.1); }
 
@@ -97,7 +94,7 @@
         .qr-section img { width: 150px; height: 150px; border-radius: 8px; margin: 10px 0; }
         .bank-info { font-size: 15px; line-height: 1.6; }
 
-        .rsvp-form input, .rsvp-form select { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit; font-size: 15px; }
+        .rsvp-form input, .rsvp-form select, .rsvp-form textarea { width: 100%; padding: 12px; margin-bottom: 15px; border: 1px solid #ccc; border-radius: 5px; font-family: inherit; font-size: 15px; }
         .rsvp-btn { background: #8B0000; color: #fff; border: none; padding: 12px 30px; font-size: 16px; font-weight: bold; border-radius: 30px; cursor: pointer; transition: 0.3s; width: 100%; }
         .rsvp-btn:hover { background: #600000; }
         .rsvp-btn:disabled { background: #ccc; cursor: not-allowed; }
@@ -226,26 +223,25 @@
             </div>
         </div>
 
+        <!-- THAY THẾ DRESS CODE BẰNG GÓC KỶ NIỆM / GỬI LỜI NHẮN -->
         <div class="section-box slide-in-up" style="background: #fff8f5;">
-            <h3>Dress Code</h3>
-            <p class="invitation-text">Khuyến khích trang phục mang tông màu:</p>
-            <div class="dress-code-colors">
-                <div class="color-circle slide-in-left" style="background-color: #FFFFFF;" title="Trắng"></div>
-                <div class="color-circle slide-in-up" style="background-color: #F5D0A9;" title="Beige"></div>
-                <div class="color-circle slide-in-right" style="background-color: #8B0000;" title="Đỏ Đô"></div>
+            <h3>Góc Kỷ Niệm & Lời Nhắn</h3>
+            <p class="invitation-text">Sự hiện diện và những lời chúc tốt đẹp của bạn là món quà quý giá nhất đối với chúng tôi.</p>
+            <div style="background: #fff; padding: 20px; border-radius: 8px; border: 1px solid #faedcd; text-align: left; font-size: 15px; color: #555; line-height: 1.6;">
+                <p style="margin-bottom: 10px; text-align: center; color: #8B0000; font-weight: bold;">💌 Gửi lời chúc đến cô dâu & chú rể</p>
+                <p>Mỗi lời chúc, mỗi kỷ niệm đẹp mà mọi người chia sẻ sẽ là hành trang tuyệt vời cho khởi đầu mới của vợ chồng chúng tôi. Hãy để lại đôi dòng nhắn gửi ở phần xác nhận tham dự phía dưới nhé!</p>
             </div>
         </div>
 
         <div class="section-box slide-in-up">
-            <h3>Xác Nhận Tham Dự</h3>
-            <p class="invitation-text">Để gia đình chuẩn bị đón tiếp chu đáo nhất, vui lòng xác nhận sự hiện diện của bạn.</p>
+            <h3>Xác Nhận Tham Dự & Gửi Lời Chúc</h3>
+            <p class="invitation-text">Vui lòng xác nhận sự hiện diện và gửi đôi lời nhắn gửi yêu thương đến chúng tôi.</p>
             
-            <!-- IFRAME ẨN ĐỂ XỬ LÝ GOOGLE SCRIPT MÀ KHÔNG BỊ LỖI CORS -->
+            <!-- IFRAME ẨN -->
             <iframe name="hidden_iframe" id="hidden_iframe" style="display:none;" onload="if(submitted){ xacNhanXong(); }"></iframe>
             
-            <!-- FORM ĐƯỢC CHỈNH SỬA LẠI ACTION VÀ TARGET -->
+            <!-- FORM TÍCH HỢP THÊM Ô NHẬP LỜI CHÚC (name="message") -->
             <form class="rsvp-form" id="rsvpForm" action="https://script.google.com/macros/s/AKfycbygpNu-xVoZgzXmJAIH-VPDT1ONZJjv0hrLsnrCpS5EbUU_0ormr6QGoO88fNMRVimI6A/exec" method="POST" target="hidden_iframe" onsubmit="dangGui();">
-                <!-- Chú ý thuộc tính name="name" và name="count" là bắt buộc -->
                 <input type="text" name="name" id="rsvpName" placeholder="Tên của bạn..." required>
                 <select name="count" id="rsvpCount" required>
                     <option value="" disabled selected>Số người tham dự...</option>
@@ -253,7 +249,8 @@
                     <option value="2">2 người</option>
                     <option value="0">Rất tiếc, tôi không thể đến</option>
                 </select>
-                <button type="submit" class="rsvp-btn" id="btn-submit">Gửi Xác Nhận</button>
+                <textarea name="message" id="rsvpMessage" rows="3" placeholder="Lời chúc phúc của bạn đến cô dâu & chú rể..."></textarea>
+                <button type="submit" class="rsvp-btn" id="btn-submit">Gửi Xác Nhận & Lời Chúc</button>
             </form>
 
             <div class="qr-section slide-in-up">
@@ -375,7 +372,7 @@
             isAudioPlaying = !isAudioPlaying;
         }
 
-        // LOGIC SUBMIT FORM MỚI (Dùng Iframe Ẩn)
+        // LOGIC SUBMIT FORM VỚI Ô LỜI CHÚC
         let submitted = false;
         
         function dangGui() {
@@ -386,17 +383,12 @@
         }
 
         function xacNhanXong() {
-            const countInput = document.getElementById('rsvpCount').value;
-            if (countInput === "0") {
-                alert("Cảm ơn bạn đã báo trước. Chúc bạn một ngày vui vẻ!");
-            } else {
-                alert("Cảm ơn bạn đã xác nhận tham dự. Hẹn gặp lại bạn trong ngày vui của chúng tôi!");
-            }
+            alert("Cảm ơn bạn đã gửi lời chúc và xác nhận tham dự đến chúng tôi!");
             
             // Khôi phục lại form
             document.getElementById('rsvpForm').reset();
             const btn = document.getElementById('btn-submit');
-            btn.innerText = 'Gửi Xác Nhận';
+            btn.innerText = 'Gửi Xác Nhận & Lời Chúc';
             btn.disabled = false;
             submitted = false;
         }
